@@ -27,6 +27,7 @@ export function activate(context: vscode.ExtensionContext) {
       const snippet = {
         [name]: {
           prefix: `/${prefixName}`,
+          scope: editor.document.languageId,
           body: [selection],
         },
       };
