@@ -1,7 +1,9 @@
 {
   "name": "workspace-snippets",
   "displayName": "Workspace snippets",
-  "description": "Create workspace snippets from selection",
+  "author": "Felix Swinkels",
+  "homepage": "https://felix.surf/",
+  "description": "Create workspace snippet from selection",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.82.0"

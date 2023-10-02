@@ -1,70 +1,73 @@
 import * as vscode from "vscode";
-import * as fs from "fs";
 import * as path from "path";
+import * as fs from "fs/promises";
 
 export function activate(context: vscode.ExtensionContext) {
-  let disposable = vscode.commands.registerCommand(
+  const disposable = vscode.commands.registerCommand(
     "extension.createWorkspaceSnippet",
     async () => {
       const editor = vscode.window.activeTextEditor;
       if (!editor) {
-        vscode.window.showErrorMessage("No active editor found");
+        vscode.window.showErrorMessage("No active text editor found.");
         return;
       }
 
-      const selection = editor.selection;
-      const selectedText = editor.document.getText(selection);
-
-      if (!selectedText) {
-        vscode.window.showErrorMessage("No text selected");
-        return;
-      }
-
-      const snippetPrefix = await vscode.window.showInputBox({
-        prompt: "Enter the snippet prefix",
-        value: "mySnippet",
+      const selection = editor.document.getText(editor.selection);
+      const name = await vscode.window.showInputBox({
+        prompt: "Enter the name of the snippet",
       });
-
-      if (!snippetPrefix) {
-        vscode.window.showErrorMessage("No snippet prefix entered");
+      if (!name) {
         return;
       }
 
-      const snippetContent = selectedText;
+      const prefix = await vscode.window.showInputBox({
+        prompt: "Enter the prefix of the snippet",
+      });
+      if (!prefix) {
+        return;
+      }
 
-      const snippetsFilePath = path.join(
-        vscode.workspace.rootPath || "",
+      const snippet = {
+        [name]: {
+          prefix,
+          body: [selection],
+          description: `Snippet for ${name}`,
+        },
+      };
+
+      const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
+      if (!workspaceFolder) {
+        vscode.window.showErrorMessage("No workspace folder found.");
+        return;
+      }
+
+      const snippetFilePath = path.join(
+        workspaceFolder.uri.fsPath,
         ".vscode",
         "workspace.code-snippets"
       );
 
+      let snippetFileContent = {};
       try {
-        // Create the .vscode directory if it doesn't exist
-        fs.mkdirSync(path.dirname(snippetsFilePath), { recursive: true });
+        const snippetFileContentBuffer = await fs.readFile(snippetFilePath);
+        snippetFileContent = JSON.parse(snippetFileContentBuffer.toString());
+      } catch (error) {
+        // Ignore errors when reading the snippet file
+      }
 
-        // Create the workspace.code-snippets file if it doesn't exist
-        if (!fs.existsSync(snippetsFilePath)) {
-          fs.writeFileSync(snippetsFilePath, "{}");
-        }
+      Object.assign(snippetFileContent, snippet);
 
-        // Read the contents of the workspace.code-snippets file
-        const snippetsFileContent = fs.readFileSync(snippetsFilePath, "utf8");
-
-        // Parse the contents of the file as JSON
-        const snippets = JSON.parse(snippetsFileContent);
-
-        // Add the new snippet to the JSON object
-        snippets[snippetPrefix] = snippetContent;
-
-        // Write the updated JSON object to the workspace.code-snippets file
-        fs.writeFileSync(snippetsFilePath, JSON.stringify(snippets, null, 2));
-
+      try {
+        await fs.writeFile(
+          snippetFilePath,
+          JSON.stringify(snippetFileContent, null, 2)
+        );
         vscode.window.showInformationMessage(
-          `Snippet '${snippetPrefix}' created`
+          `Snippet "${name}" created successfully.`
         );
       } catch (error) {
         vscode.window.showErrorMessage(
-          `Error creating snippet: ${error.message}`
+          `Error creating snippet "${name}": ${(error as Error).message}`
         );
       }
     }
