@@ -1,5 +1,5 @@
 Create workspace code snippets and share them with your colleagues.
 
-Hit CMD+P and type: Create workspace code snippet.
+Hit cmd+shit+p and type: Create workspace code snippet.
 
 The snippets are saved in .vscode/workspace.code-snippets
