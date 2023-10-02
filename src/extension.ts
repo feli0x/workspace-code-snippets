@@ -4,7 +4,7 @@ import * as fs from "fs/promises";
 
 export function activate(context: vscode.ExtensionContext) {
   const disposable = vscode.commands.registerCommand(
-    "extension.createWorkspaceSnippet",
+    "extension.createWorkspaceCodeSnippet",
     async () => {
       const editor = vscode.window.activeTextEditor;
       if (!editor) {

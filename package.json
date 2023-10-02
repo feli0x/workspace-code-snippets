@@ -1,9 +1,10 @@
 {
-  "name": "workspace-snippets",
-  "displayName": "Workspace snippets",
+  "name": "workspace-code-snippets",
+  "displayName": "Workspace Code Snippets",
   "author": "Felix Swinkels",
   "homepage": "https://felix.surf/",
-  "description": "Create workspace snippet from selection",
+  "description": "Create code snippets in your workspace and share them with your team.",
+  "repository": "https://github.com/feli0x/workspace-code-snippets",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.82.0"
@@ -16,8 +17,8 @@
   "contributes": {
     "commands": [
       {
-        "command": "extension.createWorkspaceSnippet",
-        "title": "Create Workspace Snippet",
+        "command": "extension.createWorkspaceCodeSnippet",
+        "title": "Create Workspace Code Snippet",
         "category": "Snippets"
       }
     ]
