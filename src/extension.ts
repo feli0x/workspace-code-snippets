@@ -13,28 +13,25 @@ export function activate(context: vscode.ExtensionContext) {
       }
 
       const selection = editor.document.getText(editor.selection);
-      const name = await vscode.window.showInputBox({
+      let name = await vscode.window.showInputBox({
         prompt: "Enter the name of the snippet",
       });
       if (!name) {
         return;
       }
 
-      const prefix = await vscode.window.showInputBox({
-        prompt: "Enter the prefix of the snippet",
-      });
-      if (!prefix) {
-        return;
-      }
+      // Sanitize the name for the prefix
+      const prefixName = name.replace(/[^a-zA-Z0-9]/g, "-");
 
+      // Create the snippet
       const snippet = {
         [name]: {
-          prefix,
+          prefix: `/${prefixName}`,
           body: [selection],
-          description: `Snippet for ${name}`,
         },
       };
 
+      // Write the snippet to the workspace file
       const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
       if (!workspaceFolder) {
         vscode.window.showErrorMessage("No workspace folder found.");
@@ -63,7 +60,7 @@ export function activate(context: vscode.ExtensionContext) {
           JSON.stringify(snippetFileContent, null, 2)
         );
         vscode.window.showInformationMessage(
-          `Snippet "${name}" created successfully.`
+          `Snippet "${name}" created successfully. You can now use it by typing "/${prefixName}" in a file.`
         );
       } catch (error) {
         vscode.window.showErrorMessage(
