@@ -1,5 +1,17 @@
-Create workspace code snippets and share them with your colleagues.
+# Workspace Snippets Extension
 
-Hit cmd+shit+p and type: Create workspace code snippet.
+This extension allows you to create code snippets from selected code in your workspace.
 
-The snippets are saved in .vscode/workspace.code-snippets
+![image](https://github.com/feli0x/workspace-code-snippets/blob/main/workspace-code-snippets.gif?raw=true)
+
+## Usage
+
+1. Select the code you want to turn into a snippet.
+2. Press `cmd+shift+p` (or `ctrl+shift+p` on Windows/Linux) to open the Command Palette.
+3. Type "Create Workspace Code Snippet" and select the option from the list.
+4. Choose a name for your snippet and press Enter.
+5. Your snippet will be saved in `./vscode/workspace.code-snippets`.
+
+## Contributing
+
+If you find any issues or have suggestions for improvement, please submit an issue or pull request on the [GitHub repository](https://github.com/feli0x/workspace-code-snippets).
