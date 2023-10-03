@@ -101,9 +101,8 @@ export function activate(context: vscode.ExtensionContext) {
 
       try {
         await writeSnippetFile(snippetFilePath, snippetFileContent);
-        vscode.window.showInformationMessage(
-          `Snippet "${name}" created successfully. You can now use it by typing "/${prefixName}" in a ${editor.document.languageId} file.`
-        );
+        const successMessage = `Snippet "${name}" created successfully. You can now use it by typing "/${prefixName}" in a ${editor.document.languageId} file.`;
+        vscode.window.setStatusBarMessage(successMessage, 30000);
       } catch (error) {
         vscode.window.showErrorMessage(
           `Error creating snippet "${name}": ${(error as Error).message}`
