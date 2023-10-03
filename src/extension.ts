@@ -111,8 +111,10 @@ async function createWorkspaceCodeSnippet() {
 
   try {
     await writeSnippetFile(snippetFilePath, snippetFileContent);
-    const successMessage = `Snippet "${name}" created successfully. You can now use it by typing "/${prefixName}" in a ${editor.document.languageId} file.`;
-    vscode.window.setStatusBarMessage(successMessage, 30000);
+    vscode.window.setStatusBarMessage(
+      `Snippet "${name}" created successfully. You can now use it by typing "/${prefixName}" in a ${editor.document.languageId} file.`,
+      30000
+    );
   } catch (error) {
     vscode.window.showErrorMessage(
       `Error creating snippet "${name}": ${(error as Error).message}`
