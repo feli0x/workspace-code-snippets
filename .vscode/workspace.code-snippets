@@ -1,0 +1,9 @@
+{
+  "import": {
+    "prefix": "/import",
+    "scope": "typescript",
+    "body": [
+      "import * as vscode from \"vscode\";\nimport * as path from \"path\";\nimport * as fs from \"fs/promises\";\n"
+    ]
+  }
+}
