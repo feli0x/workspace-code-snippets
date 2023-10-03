@@ -2,7 +2,7 @@
 
 This extension allows you to create code snippets from selected code in your workspace.
 
-![image](https://github.com/feli0x/workspace-code-snippets/blob/main/workspace-code-snippets.gif?raw=true)
+![Demonstration](https://github.com/feli0x/workspace-code-snippets/blob/main/assets/demo.gif?raw=true)
 
 ## Usage
 
