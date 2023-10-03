@@ -23,6 +23,20 @@
         "title": "Create Workspace Code Snippet",
         "category": "Snippets"
       }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "extension.createWorkspaceCodeSnippet",
+          "group": "navigation"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "extension.createWorkspaceCodeSnippet",
+        "key": "cmd+k cmd+z"
+      }
     ]
   },
   "scripts": {
