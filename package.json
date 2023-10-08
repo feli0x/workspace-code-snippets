@@ -37,7 +37,17 @@
         "command": "extension.createWorkspaceCodeSnippet",
         "key": "cmd+k cmd+z"
       }
-    ]
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "Workspace Code Snippets",
+      "properties": {
+        "prefixSymbol": {
+          "type": "string",
+          "default": "/"
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run package",

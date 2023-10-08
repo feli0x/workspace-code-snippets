@@ -42,11 +42,53 @@ function createSnippet(
 ): Snippet {
   return {
     [name]: {
-      prefix: `/${prefixName}`,
+      prefix: `${prefixName}`,
       scope: languageId,
       body: [selection],
     },
   };
+}
+
+function updatePrefixSymbol() {
+  // get snippet file path
+  const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
+  if (!workspaceFolder) {
+    vscode.window.showErrorMessage("No workspace folder found.");
+    return;
+  }
+  const snippetFilePath = path.join(
+    workspaceFolder.uri.fsPath,
+    ".vscode",
+    "workspace.code-snippets"
+  );
+
+  // read snippet file
+  readSnippetFile(snippetFilePath).then((snippetFileContent) => {
+    // check if snippets contains a special character
+    const specialCharRegex = /[^a-zA-Z0-9]/g;
+    const hasSpecialChar = Object.keys(snippetFileContent).some((key) =>
+      specialCharRegex.test(snippetFileContent[key].prefix)
+    );
+    // update snippets
+    const newSnippetFileContent: Snippet = {};
+    Object.keys(snippetFileContent).forEach((key) => {
+      const snippet = snippetFileContent[key];
+      let newPrefix = snippet.prefix;
+      if (hasSpecialChar) {
+        const prefixSymbol = vscode.workspace
+          .getConfiguration()
+          .get("prefixSymbol") as string;
+        newPrefix = newPrefix.replace(specialCharRegex, prefixSymbol);
+      }
+      const newSnippet = {
+        ...snippet,
+        prefix: newPrefix,
+      };
+      newSnippetFileContent[key] = newSnippet;
+    });
+    // write snippets to file
+    writeSnippetFile(snippetFilePath, newSnippetFileContent);
+  });
 }
 
 async function createWorkspaceCodeSnippet() {
@@ -64,7 +106,12 @@ async function createWorkspaceCodeSnippet() {
     return;
   }
 
-  const prefixName = sanitizeName(name);
+  let prefixName = sanitizeName(name);
+  const prefixSymbol = vscode.workspace.getConfiguration().get("prefixSymbol");
+
+  if (prefixSymbol) {
+    prefixName = `${prefixSymbol}${prefixName}`;
+  }
   const snippet = createSnippet(
     name,
     prefixName,
@@ -112,7 +159,7 @@ async function createWorkspaceCodeSnippet() {
   try {
     await writeSnippetFile(snippetFilePath, snippetFileContent);
     vscode.window.setStatusBarMessage(
-      `Snippet "${name}" created successfully. You can now use it by typing "/${prefixName}" in a ${editor.document.languageId} file.`,
+      `Snippet "${name}" created successfully. You can now use it by typing "${prefixSymbol}${prefixName}" in a ${editor.document.languageId} file.`,
       30000
     );
   } catch (error) {
@@ -129,4 +176,11 @@ export function activate(context: vscode.ExtensionContext) {
   );
 
   context.subscriptions.push(disposable);
+
+  vscode.workspace.onDidChangeConfiguration((event) => {
+    if (event.affectsConfiguration("prefixSymbol")) {
+      // Update the snippets
+      updatePrefixSymbol();
+    }
+  });
 }
