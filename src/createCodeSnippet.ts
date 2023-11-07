@@ -8,6 +8,11 @@ import {
 } from "./snippet";
 import * as path from "path";
 
+/**
+ * Creates a code snippet from the selected text in the active text editor.
+ * Prompts the user to enter a name for the snippet and saves it to the workspace's `.vscode/workspace.code-snippets` file.
+ * If a snippet with the same name already exists, prompts the user to either change the name or update the existing snippet.
+ */
 async function createCodeSnippet() {
   const editor = vscode.window.activeTextEditor;
   if (!editor) {

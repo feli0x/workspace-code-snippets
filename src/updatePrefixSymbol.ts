@@ -2,8 +2,12 @@ import * as vscode from "vscode";
 import * as path from "path";
 import { Snippet, readSnippetFile, writeSnippetFile } from "./snippet";
 
+/**
+ * Updates the prefix symbol of all snippets in the workspace.code-snippets file.
+ * If the `prefixSymbol` configuration setting is set, replaces all non-alphanumeric characters in the prefix with it.
+ * @returns void
+ */
 function updatePrefixSymbol() {
-  // Get the path to the snippet file
   const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
   if (!workspaceFolder) {
     vscode.window.showErrorMessage("No workspace folder found.");
@@ -15,15 +19,12 @@ function updatePrefixSymbol() {
     "workspace.code-snippets"
   );
 
-  // Read the snippet file
   readSnippetFile(snippetFilePath).then((snippetFileContent) => {
-    // Check if any snippet prefix contains a special character
     const specialCharRegex = /[^a-zA-Z0-9]/g;
     const hasSpecialChar = Object.keys(snippetFileContent).some((key) =>
       specialCharRegex.test(snippetFileContent[key].prefix)
     );
 
-    // Update the snippets
     const newSnippetFileContent: Snippet = {};
     Object.keys(snippetFileContent).forEach((key) => {
       const snippet = snippetFileContent[key];
@@ -41,7 +42,6 @@ function updatePrefixSymbol() {
       newSnippetFileContent[key] = newSnippet;
     });
 
-    // Write the updated snippets to the file
     writeSnippetFile(snippetFilePath, newSnippetFileContent);
   });
 }
