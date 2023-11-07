@@ -19,22 +19,22 @@
   "contributes": {
     "commands": [
       {
-        "command": "extension.createWorkspaceCodeSnippet",
-        "title": "Create Workspace Code Snippet",
+        "command": "extension.workspaceCodeSnippet",
+        "title": "New Workspace Code Snippet",
         "category": "Snippets"
       }
     ],
     "menus": {
       "editor/context": [
         {
-          "command": "extension.createWorkspaceCodeSnippet",
+          "command": "extension.workspaceCodeSnippet",
           "group": "navigation"
         }
       ]
     },
     "keybindings": [
       {
-        "command": "extension.createWorkspaceCodeSnippet",
+        "command": "extension.workspaceCodeSnippet",
         "key": "cmd+k cmd+z"
       }
     ],
