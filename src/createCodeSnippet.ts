@@ -33,9 +33,7 @@ async function createCodeSnippet() {
     .getConfiguration()
     .get("workspaceCodeSnippets.prefixSymbol");
 
-  if (prefixSymbol) {
-    prefixName = `${prefixSymbol}${prefixName}`;
-  }
+  prefixSymbol && (prefixName = `${prefixSymbol}${prefixName}`);
 
   const setScope = vscode.workspace
     .getConfiguration("workspaceCodeSnippets")
@@ -86,7 +84,7 @@ async function createCodeSnippet() {
   try {
     await writeSnippetFile(snippetFilePath, snippetFileContent);
     vscode.window.setStatusBarMessage(
-      `Snippet "${name}" created successfully. You can now use it by typing "${prefixSymbol}${prefixName}" in a ${editor.document.languageId} file.`,
+      `Snippet "${name}" created successfully. You can now use it by typing "${prefixName}" in a ${editor.document.languageId} file.`,
       30000
     );
   } catch (error) {
