@@ -2,7 +2,7 @@
 
 All notable changes to the "workspace-code-snippets" extension will be documented in this file.
 
-[v0.5.0] 29-11-2023
+[v0.5.2] 29-11-2023
 
 - prefixSymbol -> workspaceCodeSnippets.prefixSymbol in settings.json
 - Add set scope setting in settings.json. When false, the scope will be set to global.

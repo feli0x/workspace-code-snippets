@@ -6,8 +6,8 @@
   "homepage": "https://felix.surf/",
   "description": "Create code snippets in your workspace and share them with your team.",
   "repository": "https://github.com/feli0x/workspace-code-snippets",
-  "version": "0.5.1",
-  "icon": "assets/beta_icon.png",
+  "version": "0.5.2",
+  "icon": "assets/icon.png",
   "engines": {
     "vscode": "^1.83.0"
   },
