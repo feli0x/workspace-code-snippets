@@ -42,9 +42,13 @@
       "type": "object",
       "title": "Workspace Code Snippets",
       "properties": {
-        "prefixSymbol": {
+        "workspaceCodeSnippets.prefixSymbol": {
           "type": "string",
           "default": "/"
+        },
+        "workspaceCodeSnippets.setScope": {
+          "type": "boolean",
+          "default": true
         }
       }
     }

@@ -32,7 +32,7 @@ async function updatePrefixSymbol() {
     if (hasSpecialChar) {
       const prefixSymbol = vscode.workspace
         .getConfiguration()
-        .get("prefixSymbol") as string;
+        .get("workspaceCodeSnippets.prefixSymbol") as string;
       newPrefix = newPrefix.replace(specialCharRegex, prefixSymbol);
     }
     const newSnippet = {

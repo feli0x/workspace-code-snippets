@@ -16,7 +16,7 @@ export function activate(context: vscode.ExtensionContext) {
 
   // Update prefix symbol when configuration changes
   vscode.workspace.onDidChangeConfiguration((event) => {
-    if (event.affectsConfiguration("prefixSymbol")) {
+    if (event.affectsConfiguration("workspaceCodeSnippets.prefixSymbol")) {
       updatePrefixSymbol();
     }
   });

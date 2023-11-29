@@ -29,17 +29,22 @@ async function createCodeSnippet() {
   }
 
   let prefixName = sanitizeName(name);
-  const prefixSymbol = vscode.workspace.getConfiguration().get("prefixSymbol");
+  const prefixSymbol = vscode.workspace
+    .getConfiguration()
+    .get("workspaceCodeSnippets.prefixSymbol");
 
   if (prefixSymbol) {
     prefixName = `${prefixSymbol}${prefixName}`;
   }
-  const snippet = createSnippet(
-    name,
-    prefixName,
-    editor.document.languageId,
-    selection
-  );
+
+  const setScope = vscode.workspace
+    .getConfiguration("workspaceCodeSnippets")
+    .get("setScope");
+
+  let langScope = "";
+  setScope && (langScope = editor.document.languageId);
+
+  const snippet = createSnippet(name, prefixName, langScope, selection);
 
   const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
   if (!workspaceFolder) {
